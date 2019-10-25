@@ -590,6 +590,9 @@ input[type="submit"] {
                 border-bottom-left-radius: 0px; }
         .video-detail__container .video__comments .video__comments-list li:not(:last-child) {
           margin-bottom: 15px; }
+        .video-detail__container .video__comments .video__comments-list li span:nth-child(2) {
+          float: right;
+          cursor: pointer; }
 
 .user-profile {
   width: 100%;

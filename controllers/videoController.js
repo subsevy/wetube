@@ -39,10 +39,10 @@ export const getUpload = (req, res) =>
 export const postUpload = async (req, res) => {
   const {
     body: { title, description },
-    file: { path }
+    file: { location }
   } = req;
   const newVideo = await Video.create({
-    fileUrl: path,
+    fileUrl: location,
     title,
     description,
     creator: req.user.id
@@ -150,9 +150,28 @@ export const postAddComment = async (req, res) => {
       text: comment,
       creator: user.id
     });
-    video.comments.push(newComment._id);
+    video.comments.push(newComment.id);
     video.save();
+    res.status(200).json({ commentId: newComment.id });
   } catch (error) {
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
+
+export const postDeleteComment = async (req, res) => {
+  const {
+    params: { id, commentId }
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    const idx = video.comments.indexOf(commentId);
+    if (idx > -1) video.comments.splice(idx, 1);
+    await Comment.findOneAndDelete({ _id: commentId });
+    res.status(200);
+  } catch (error) {
+    console.log(error);
     res.status(400);
   } finally {
     res.end();

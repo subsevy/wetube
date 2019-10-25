@@ -56,6 +56,12 @@
         &:not(:last-child) {
           margin-bottom: 15px;
         }
+        span {
+          &:nth-child(2) {
+            float: right;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
